@@ -1,0 +1,5 @@
+{"_id":{"$oid":"62005c5938d2a870724ba752"},"username":"bob","password":"bob321","firstName":"Bob","lastName":"Hope","email":"bob@hope.com","__v":0}
+{"_id":{"$oid":"62005c6638d2a870724ba754"},"username":"alice","password":"alice123","firstName":"Alice","lastName":"Wonderland","email":"alice@wonderland.com","__v":0}
+{"_id":{"$oid":"62005c7538d2a870724ba757"},"username":"charlie","password":"charlie432","firstName":"Charlie","lastName":"Brown","email":"charlie@peanuts.com","__v":0}
+{"_id":{"$oid":"62005c7f38d2a870724ba759"},"username":"nasa","password":"nasa321","firstName":"NASA","lastName":"Gov","email":"space@nasa.gov","__v":0}
+{"_id":{"$oid":"62005c8738d2a870724ba75b"},"username":"spacex","password":"spacex420","firstName":"SpaceX","lastName":null,"email":"elon@spacex.com","__v":0}
