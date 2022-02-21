@@ -7,7 +7,7 @@ import TuitController from "./controllers/TuitController";
 import mongoose from "mongoose";
 
 // connect to the database
-mongoose.connect("mongodb://localhost:27017/tuiter");
+mongoose.connect("mongodb+srv://kalmeida:kateyla@cluster0.agrs0.mongodb.net/tuiter?retryWrites=true&w=majority");
 
 // create RESTful Web service API
 const app = express();

@@ -1,3 +1,7 @@
+/**
+ * @file Declares API for a user controller and its methods
+ */
+
 import {Request, Response} from "express";
 
 export default interface UserController {

@@ -1,3 +1,7 @@
+/**
+ *  @file Declares API for tuit-related DAO methods
+ */
+
 import Tuit from "../models/tuits/Tuit";
 
 export default interface TuitDao {

@@ -1,4 +1,4 @@
-import Tuit from './Tuit'
+import Tuit from './tuits/Tuit'
 import Topic from './Topic'
 
 export default class Tuit2Tag {
