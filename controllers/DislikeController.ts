@@ -80,12 +80,10 @@ export default class DislikeController implements DislikeControllerI {
 
 
     /**
-     * @param {Request} req Represents request from client, including the
-     * path parameters uid and tid representing the user that is liking the tuit
-     * and the tuit being disliked
-     * @param {Response} res Represents response to client, including the
-     * body formatted as JSON containing the new dislikes that was inserted in the
-     * database
+     * @param {Request} req Represents request from client, including the path parameters
+     * uid and tid representing the user that is liking the tuit and the disliked tuit
+     * @param {Response} res Represents response to client, including the body formatted
+     * as JSON containing the new dislikes that was inserted in the database
      */
     userTogglesTuitDislikes = async (req: Request, res: Response) => {
         const dislikeDao = DislikeController.dislikeDao;
