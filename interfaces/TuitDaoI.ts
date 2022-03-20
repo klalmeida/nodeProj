@@ -9,5 +9,7 @@ export default interface TuitDaoI {
     findTuitById (tid: string): Promise<Tuit>;
     createTuitByUser (uid: string, tuit: Tuit): Promise<Tuit>;
     updateTuit (tid: string, tuit: Tuit): Promise<any>;
+    updateLikes (tid: string, newStats: any): Promise<any>;
+    updateDislikes (tid: string, newStats: any): Promise<any>;
     deleteTuit (tid: string): Promise<any>;
 };
