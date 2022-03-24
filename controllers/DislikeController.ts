@@ -3,11 +3,13 @@
  */
 import {Express, Request, Response} from "express";
 import DislikeDao from "../daos/DislikeDao";
+import LikeDao from "../daos/LikeDao";
+import LikeController from "./LikeController";
 import DislikeControllerI from "../interfaces/DislikeControllerI";
 import TuitDao from "../daos/TuitDao";
 
 /**
- * @class TuitController Implements RESTful Web service API for dislikes resource.
+ * @class DislikeController Implements RESTful Web service API for dislikes resource.
  * Defines the following HTTP endpoints:
  * <ul>
  *     <li>GET /api/users/:uid/dislikes to retrieve all the tuits disliked by a user
@@ -24,14 +26,15 @@ import TuitDao from "../daos/TuitDao";
  * RESTful Web service API
  */
 export default class DislikeController implements DislikeControllerI {
-    private static dislikeDao: DislikeDao = DislikeDao.getInstance();
+    static dislikeDao: DislikeDao = DislikeDao.getInstance();
+    static likeDao: LikeDao = LikeDao.getInstance();
     private static tuitDao: TuitDao = TuitDao.getInstance();
     private static dislikeController: DislikeController | null = null;
     /**
      * Creates singleton controller instance
      * @param {Express} app Express instance to declare the RESTful Web service
      * API
-     * @return TuitController
+     * @return DislikeController
      */
     public static getInstance = (app: Express): DislikeController => {
         if(DislikeController.dislikeController === null) {
@@ -87,6 +90,7 @@ export default class DislikeController implements DislikeControllerI {
      */
     userTogglesTuitDislikes = async (req: Request, res: Response) => {
         const dislikeDao = DislikeController.dislikeDao;
+        const likeDao = LikeController.likeDao;
         const tuitDao = DislikeController.tuitDao;
         const uid = req.params.uid;
         const tid = req.params.tid;
@@ -96,16 +100,24 @@ export default class DislikeController implements DislikeControllerI {
             profile._id : uid;
         try {
             const userAlreadyDislikedTuit = await dislikeDao.findUserDislikesTuit(userId, tid);
+            const userAlreadyLikedTuit = await likeDao.findUserLikesTuit(userId, tid);
             const howManyDislikedTuit = await dislikeDao.countHowManyDislikedTuit(tid);
+            const howManyLikedTuit = await likeDao.countHowManyLikedTuit(tid);
             let tuit = await tuitDao.findTuitById(tid);
+
             if (userAlreadyDislikedTuit) {
                 await dislikeDao.userUndislikesTuit(userId, tid);
                 tuit.stats.dislikes = howManyDislikedTuit - 1;
+            } else if (userAlreadyLikedTuit) {
+                await likeDao.userUnlikesTuit(userId, tid);
+                tuit.stats.likes = howManyLikedTuit - 1;
+                tuit.stats.dislikes = howManyDislikedTuit + 1;
             } else {
                 await DislikeController.dislikeDao.userDislikesTuit(userId, tid);
                 tuit.stats.dislikes = howManyDislikedTuit + 1;
             }
             await tuitDao.updateDislikes(tid, tuit.stats);
+            await tuitDao.updateLikes(tid,tuit.stats);
             res.sendStatus(200);
         } catch (e) {
             res.sendStatus(404);

@@ -1,7 +1,12 @@
 dao > daoI > model
-profile/my-dislikes > services/dislikes
+profile/my-dislikes > services/dislikes > profile/index
 
 
--add userUndislikesTuit to DislikeController -- OR -- change to toggleDislikes
+TODO:
 
--check if tuitDao/tuitDaoI need to be updatesd
+-do I need tests for dislikes button?
+-implement dislikes according to piazza response
+-why is heroku not working?
+-implement myDislikes screen
+-tests for react side
+-jsdoc for everything
