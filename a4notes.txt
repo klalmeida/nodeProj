@@ -8,5 +8,5 @@ TODO:
 -implement dislikes according to piazza response
 -why is heroku not working?
 -implement myDislikes screen
--tests for react side
+-tests for react side - likes service, dislikes service, my-likes-screen, my-dislikes-screen
 -jsdoc for everything
