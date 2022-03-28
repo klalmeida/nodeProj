@@ -1,3 +1,7 @@
+/**
+ * @file Declares User data type and the various stored
+ * information about the user
+ */
 import AccountType from "./AccountType";
 import MaritalStatus from "./MaritalStatus";
 import Location from "./Location";
