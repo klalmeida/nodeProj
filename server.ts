@@ -34,11 +34,12 @@ const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${
 mongoose.connect(connectionString);
 
 const app = express();
-app.use(express.json());
+
 app.use(cors({
     credentials: true,
     origin: 'https://hopeful-gates-42f125.netlify.app/'
 }));
+app.use(express.json());
 
 const SECRET = 'process.env.SECRET';
 let sess = {

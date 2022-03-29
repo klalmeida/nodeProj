@@ -100,6 +100,7 @@ export default class LikeController implements LikeControllerI {
         const profile = req.session['profile'];
         const userId = uid === "me" && profile ?
             profile._id : uid;
+
         try {
             const userAlreadyLikedTuit = await likeDao.findUserLikesTuit(userId, tid);
             const userAlreadyDislikedTuit = await dislikeDao.findUserDislikesTuit(userId, tid);
@@ -107,13 +108,19 @@ export default class LikeController implements LikeControllerI {
             const howManyDislikedTuit = await dislikeDao.countHowManyDislikedTuit(tid);
             let tuit = await tuitDao.findTuitById(tid);
 
+            // if user already liked the tuit and like button is
+            // clicked: remove the like
             if (userAlreadyLikedTuit) {
                 await likeDao.userUnlikesTuit(userId, tid);
                 tuit.stats.likes = howManyLikedTuit - 1;
+            // if user already disliked the tuit and like button
+            // is clicked: remove the dislike AND add a like
             } else if (userAlreadyDislikedTuit){
                 await dislikeDao.userUndislikesTuit(userId, tid);
                 tuit.stats.dislikes = howManyDislikedTuit - 1;
                 tuit.stats.likes = howManyLikedTuit + 1;
+            // if user has not liked or disliked the tuit and the
+            // like button is clicked: add a like
             } else {
                 await LikeController.likeDao.userLikesTuit(userId, tid);
                 tuit.stats.likes = howManyLikedTuit + 1;
