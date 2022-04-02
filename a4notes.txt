@@ -4,10 +4,10 @@ profile/my-dislikes > services/dislikes > profile/index
 
 TODO:
 
--double check implementation dislikes according to piazza response
 -why is heroku not working?
 	-do i need to fix base_urls?
+
 -make sure tests for react side work kinda
     - likes service, dislikes service, my-likes-screen, my-dislikes-screen
--jsdoc for react services line by line
--add find all likes test to 'likes-service-test'
+
+-check tests against JA source code

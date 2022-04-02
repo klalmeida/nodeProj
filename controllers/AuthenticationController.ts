@@ -32,6 +32,11 @@ const AuthenticationController = (app: Express) => {
      * @param res Response to client
      */
     const login = async (req: Request, res: Response) => {
+
+        console.log("==> login")
+        console.log("==> req.session")
+        console.log(req.session)
+
         const user = req.body;
         const username = user.username;
         const password = user.password;
@@ -57,6 +62,10 @@ const AuthenticationController = (app: Express) => {
      * @param res Response to client
      */
     const register = async (req: Request, res: Response) => {
+        console.log("==> register")
+        console.log("==> req.session")
+        console.log(req.session)
+
         const newUser = req.body;
         const password = newUser.password;
         const hash = await bcrypt.hash(password, saltRounds);
