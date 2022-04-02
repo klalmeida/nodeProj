@@ -11,56 +11,65 @@
  * service
  */
 import express, {Request, Response} from 'express';
+import mongoose from "mongoose";
+import cors from "cors";
+import bodyParser from "body-parser";
+import dotenv from "dotenv";
 import CourseController from "./controllers/CourseController";
 import UserController from "./controllers/UserController";
 import TuitController from "./controllers/TuitController";
 import LikeController from "./controllers/LikeController";
+import DislikeController from "./controllers/DislikeController";
 import SessionController from "./controllers/SessionController";
 import AuthenticationController from "./controllers/AuthenticationController";
-import mongoose from "mongoose";
 import GroupController from "./controllers/GroupController";
-const cors = require("cors");
+
+
 const session = require("express-session");
+dotenv.config();
+const app = express();
+
+const CORS_ORIGIN = process.env.CORS_ORIGIN || 'https://hopeful-gates-42f125.netlify.app';
+const CORS_ORIGINs = [CORS_ORIGIN, 'http://https://hopeful-gates-42f125.netlify.app']
+
+app.use(cors({
+    credentials: true,
+    origin: CORS_ORIGINs
+}));
+
+let sess = {
+    secret: process.env.SECRET,
+    saveUninitialized: true,
+    resave: true,
+    cookie: {
+        sameSite: process.env.ENVIRONMENT === "PRODUCTION" ? 'none' : 'lax',
+        secure: process.env.ENVIRONMENT === "PRODUCTION",
+    }
+}
+
+if (process.env.ENVIRONMENT === 'PRODUCTION'){
+    app.set('tust proxy', 1)
+}
+
+app.use(session(sess));
+
 
 // build the connection string
 const PROTOCOL = "mongodb+srv";
 const DB_USERNAME = process.env.DB_USERNAME;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 const HOST = "cluster0.agrs0.mongodb.net";
-const DB_NAME = "tuiter";
+const DB_NAME = "Tuiter";
 const DB_QUERY = "retryWrites=true&w=majority";
-// const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${DB_NAME}?${DB_QUERY}`;// connect to the database
 const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${DB_NAME}?${DB_QUERY}`;// connect to the database
 mongoose.connect(connectionString);
 
-const app = express();
-
-app.use(cors({
-    credentials: true,
-    origin: 'https://hopeful-gates-42f125.netlify.app'
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
 }));
 
-
-const SECRET = 'process.env.SECRET';
-let sess = {
-    secret: process.env.EXPRESS_SESSION_SECRET,
-    saveUninitialized: true,
-    resave: true,
-    cookie: {
-        sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
-        secure: process.env.NODE_ENV === "production",
-    }
-}
-
-if (process.env.ENVIRONMENT === 'PRODUCTION') {
-    app.set('trust proxy', 1) // trust first proxy
-    sess.cookie.secure = true // serve secure cookies
-}
-
-app.use(session(sess))
-app.use(express.json());
-
-app.get('', (req: Request, res: Response) =>
+app.get('/', (req: Request, res: Response) =>
     res.send('Welcome to the party!'));
 
 app.get('/add/:a/:b', (req: Request, res: Response) =>
@@ -71,6 +80,7 @@ const courseController = new CourseController(app);
 const userController = UserController.getInstance(app);
 const tuitController = TuitController.getInstance(app);
 const likesController = LikeController.getInstance(app);
+const dislikesController = DislikeController.getInstance(app);
 SessionController(app);
 AuthenticationController(app);
 GroupController(app);
