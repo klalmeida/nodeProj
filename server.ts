@@ -54,14 +54,13 @@ if (process.env.ENVIRONMENT === 'PRODUCTION'){
 app.use(session(sess));
 
 
-// build the connection string
 const PROTOCOL = "mongodb+srv";
 const DB_USERNAME = process.env.DB_USERNAME;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 const HOST = "cluster0.agrs0.mongodb.net";
 const DB_NAME = "Tuiter";
 const DB_QUERY = "retryWrites=true&w=majority";
-const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${DB_NAME}?${DB_QUERY}`;// connect to the database
+const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${DB_NAME}?${DB_QUERY}`;
 mongoose.connect(connectionString);
 
 app.use(bodyParser.json());
@@ -84,9 +83,7 @@ const dislikesController = DislikeController.getInstance(app);
 SessionController(app);
 AuthenticationController(app);
 GroupController(app);
-/**
- * Start a server listening at port 4000 locally
- * but use environment variable PORT on Heroku if available.
- */
+
+
 const PORT = 4000;
 app.listen(process.env.PORT || PORT);

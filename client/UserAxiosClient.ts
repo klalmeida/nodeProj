@@ -4,17 +4,17 @@ import User from "../models/users/User";
 axios.defaults.baseURL = process.env.BASE_URL;
 
 const findAllUsers = async () =>
-    await axios.get('/api/users');
+    await axios.get('/users');
 
 const findUserById = async (uid: string) => {
-  return await axios.get(`/api/users/${uid}`);
+  return await axios.get(`/users/${uid}`);
 }
 
 const createUser = async (user: User) =>
-  await axios.post('/api/users', user);
+  await axios.post('/users', user);
 
 const updateUser = async (uid: string, user: User) =>
-  await axios.put(`api//users/${uid}`, user);
+  await axios.put(`/users/${uid}`, user);
 
 const deleteUser = async (uid: string) =>
-  await axios.delete(`api/users/${uid}`);
+  await axios.delete(`/users/${uid}`);
